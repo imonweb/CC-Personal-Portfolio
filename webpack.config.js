@@ -1,0 +1,86 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
+const glob = require('glob');
+const PurgeFontawesomePlugin = require('purge-fontawesome/webpack-plugin');
+
+const path = require('path');
+
+
+module.exports = {
+  entry: './src/index.js',
+  devtool: "source-map",
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, './dist'),
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+    minimize: true,
+    minimizer: [`...`, new CssMinimizerPlugin()]
+  },
+  devServer: {
+    before: function(src,server){
+      server._watch('./src/*.html')
+    },
+    contentBase: path.join(__dirname,'src'),
+    hot: true,
+    port: 3000,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(sc|c)ss$/i,
+        use: [MiniCssExtractPlugin.loader,"css-loader","sass-loader"]
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: './fonts'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(jpg|jpeg|svg|png|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'images/',
+          publicPath: 'images/'
+        }
+      }
+    ]
+  },
+   plugins: [
+        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+          filename: '[name].css',
+          chunkFilename: '[id].css',
+        }),
+        new HtmlWebpackPlugin({
+          filename: './index.html',
+          template: './src/index.html'
+        }),
+          new CopyPlugin({
+          patterns: [
+            { from: "src/images/", to: "images" },
+            // { from: "other", to: "public" },
+    ], }),
+          new PurgeFontawesomePlugin({
+            paths: [
+                glob.sync(path.join(__dirname, 'src/**/*'),  { nodir: true }),
+            ],
+        }),
+    ],
+  
+
+}
