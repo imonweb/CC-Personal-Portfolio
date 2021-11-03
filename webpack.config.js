@@ -38,29 +38,12 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader,"css-loader","sass-loader"]
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: './fonts'
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(jpg|jpeg|svg|png|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'images/',
-          publicPath: 'images/'
-        }
-      }
+        test: /\.(gif|png|jpg|jpeg|svg)$/i,
+        type: 'asset/resource'
+      },  
     ]
   },
-   plugins: [
+    plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
           filename: '[name].css',
