@@ -21,6 +21,7 @@ html {
   align-items: center;
 }
 
+.container {
  
 /* ====== Section 1 ====== */
 .section-1 {
@@ -78,9 +79,51 @@ html {
     text-transform: uppercase;
     letter-spacing: .3rem;
   }
-} /*  Section 1 */
+ } /*  Section 1 */
+
+  /*  Navbar */
+  .navbar {
+    width: 100%;
+    height: 4rem;
+    background-color: #e41c6f;
+    box-shadow: .2rem .2rem .5rem#555;
+  }
+
+  .navbar-link {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 3rem;
+    letter-spacing: .3rem;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.2s;
+
+    &::hover {
+      color: #fff;
+
+    }
+
+    &::before {
+      content: "";
+      width: 0;
+      height: .2rem;
+      background-color: #fff;
+      position: absolute;
+      right: -15%;
+      bottom: -0.3rem;
+      transition: width 0.2s;
+    }
+
+    &:hover::before {
+      width: 130%;
+    }
+  }
 
 
+
+
+} /*  Container */
 
   
  
