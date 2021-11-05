@@ -11,8 +11,10 @@ dom.i2svg()
 dom.watch();
 
 import './css/styles.scss';
+import './js/app.js';
 
 
 if(module.hot){
   module.hot.accept();
 }
+
